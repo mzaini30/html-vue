@@ -15,7 +15,7 @@ if (!existsSync("lib/")) {
     },
     {
       name: "vue-router",
-      link: "https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.iife.js",
+      link: "https://unpkg.com/vue-router@4.3.0/dist/vue-router.global.prod.js",
     },
     {
       name: "alasql",
