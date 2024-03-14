@@ -1,0 +1,16 @@
+{
+	"name": "html-vue",
+	"bin": {
+		"spa": "./app-bundle.js"
+	},
+	"version": "0.0.1",
+	"scripts": {
+		"build": "esbuild ./app.mjs --minify --bundle --platform=node --outfile=./app-bundle.js",
+		"prepublishOnly": "pnpm build"
+	},
+	"devDependencies": {
+		"esbuild": "^0.20.1",
+		"fast-glob": "^3.3.2",
+		"node-watch": "^0.7.4"
+	}
+}
