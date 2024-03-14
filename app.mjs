@@ -10,7 +10,11 @@ if (!existsSync("lib/")) {
   mkdirSync("lib");
   let library = [
     {
-      name: "petite-vue",
+      name: "vue",
+      link: "https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.iife.js",
+    },
+    {
+      name: "vue-router",
       link: "https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.iife.js",
     },
     {
