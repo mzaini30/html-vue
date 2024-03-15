@@ -21,25 +21,38 @@
         <router-view></router-view>
     </div>
 
-    <html-vue><template id="v-48e6bb39"></template><script>
-      routes.push({
-          path: '/baca-artikel/:idTulisan/tambahkan/komentar/:idKomentar',
-          component: {
-              template: '#v-48e6bb39'
-          }
-      });
-      </script><template id="v-e66adc1e">
-
-<h1>Hello World</h1></template><script>
+    <html-vue><template id="v-7b6e2e58">
+          
+          
+          <h1 id="hello-world"><a aria-hidden="true" tabindex="-1" href="#hello-world"><span class="icon icon-link"></span></a>Hello World</h1>
+<p>Ini adalah beranda</p>
+<p>Menuju <a href="#/about">about</a></p>
+          </template><script>
 routes.push({
     path: '/',
     component: {
-        template: '#v-e66adc1e',
+        template: '#v-7b6e2e58',
         
-        mounted() {
-            console.log('Hello world');
-        }
-    
+  mounted() {
+    console.log("Ini adalah beranda");
+  },
+
+    }
+});
+</script><template id="v-281e7f83">
+          
+          
+          <p>Ini adalah about</p>
+          </template><script>
+routes.push({
+    path: '/about',
+    component: {
+        template: '#v-281e7f83',
+        
+  mounted() {
+    console.log("Ini adalah about");
+  },
+
     }
 });
 </script></html-vue>

@@ -65,26 +65,29 @@ function generateId() {
 
 let file = [];
 let htmlFiles = fg.sync("pages/**/*.{html,md}");
-for (let x of htmlFiles) {
-  let isinya = readFileSync(x).toString();
-  if (x.endsWith('.md')) {
-    let jadiHtml = await mdjsProcess(isinya);
-    let hasil = `
+async function mengolah() {
+  for (let x of htmlFiles) {
+    let isinya = readFileSync(x).toString();
+    if (x.endsWith('.md')) {
+      let jadiHtml = await mdjsProcess(isinya);
+      let hasil = `
     <script>
         ${jadiHtml.jsCode.replace(/;$/, '')}
     </script>
     
     ${jadiHtml.html}
     `;
-    isinya = hasil;
+      isinya = hasil;
+    }
+    file.push({
+      path: x,
+      tag: generateTag(x),
+      isinya,
+      id: generateId()
+    });
   }
-  file.push({
-    path: x,
-    tag: generateTag(x),
-    isinya,
-    id: generateId()
-  });
 }
+mengolah();
 tulisDiIndex(file);
 
 function tulisDiIndex(file) {

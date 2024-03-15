@@ -1,6 +1,6 @@
 # Future Web
 
-Membuat website itu harusnya sesimpel ini.
+Membuat website itu harusnya sesimpel ini. Tanpa Bundler. Bisa dibuka di protocol `file:///`.
 
 ## Install
 
