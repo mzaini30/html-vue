@@ -6,7 +6,7 @@ Membuat website itu harusnya sesimpel ini. Tanpa Bundler. Bisa dibuka di protoco
 
 Klik gambar di bawah ini ya.
 
-[![Video](./aset/cover-youtube.png)](https://youtu.be/sIOGCxSFQrE)
+[![Video](https://raw.githubusercontent.com/mzaini30/html-vue/master/aset/cover-youtube.png)](https://youtu.be/sIOGCxSFQrE)
 
 ## Install
 
