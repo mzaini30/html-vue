@@ -21,41 +21,39 @@
         <router-view></router-view>
     </div>
 
-    <html-vue>
-      <template id="v-69f228bd">
-          <div>Home</div>
-          <p>Menuju ke <router-link to="/about">About</router-link></p>
-      </template>
+    <html-vue><template id="v-a770c337">
 
-      <script>
-        routes.push({
-            path: '/',
-            component: {
-                template: '#v-69f228bd',
-                mounted() {
-                    console.log('Ini di beranda');
-                }
-            }
-        });
-      </script>
+<p>Ini adalah about</p></template><script>
+routes.push({
+    path: '/about',
+    component: {
+        template: '#v-a770c337',
+        
+        mounted() {
+
+            document.title = 'About';
+        }
     
-      <template id="v-c52786ae">
-          <div>Home</div>
-          <p>Menuju ke <router-link to="/about">About</router-link></p>
-      </template>
+    }
+});
+</script><template id="v-0b9f4b78">
 
-      <script>
-        routes.push({
-            path: '/:tes',
-            component: {
-                template: '#v-c52786ae',
-                mounted() {
-                    console.log('Ini di beranda');
-                }
-            }
-        });
-      </script>
-    </html-vue>
+
+<p>Ini adalah beranda</p>
+<router-link to="/about">About</router-link></template><script>
+routes.push({
+    path: '/',
+    component: {
+        template: '#v-0b9f4b78',
+        
+        mounted() {
+            console.log('Masuk ke aplikasi');
+            document.title = 'Beranda';
+        }
+    
+    }
+});
+</script></html-vue>
 
     <script>
 
@@ -68,8 +66,8 @@
         const app = Vue.createApp({});
         app.use(router);
         app.mount('#app');
-  
-      </s >
-  </body >
-  
-  </html >;
+
+    </script>
+</body>
+
+</html>

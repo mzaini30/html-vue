@@ -1,22 +1,12 @@
 <script>
     export default {
         mounted() {
-            console.log('Ini di beranda');
+            console.log('Masuk ke aplikasi');
+            document.title = 'Beranda';
         }
     }
 </script>
 
-<script src="kucing.js"></script>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-    }
-</style>
-<script>
-    console.log('Hello World...')
-</script>
 
-<link rel="stylesheet" href="kucing.css">
-
-<p>Kucing</p>
+<p>Ini adalah beranda</p>
+<router-link to="/about">About</router-link>

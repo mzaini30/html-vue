@@ -1,5 +1,5 @@
 export default function BuatIndex() {
-  return /*html*/ `<!DOCTYPE html>
+    return /*html*/ `<!DOCTYPE html>
   <html lang="id">
   
   <head>
@@ -37,7 +37,7 @@ export default function BuatIndex() {
           app.use(router);
           app.mount('#app');
   
-      </s>
+      </script>
   </body>
   
   </html>`;

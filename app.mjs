@@ -43,9 +43,9 @@ if (!existsSync("pages/")) {
   if (!existsSync("pages/index.html")) {
     writeFileSync("pages/index.html", /*html*/ `<h1>Hello World</h1>`);
   }
-  if (!existsSync("pages/database.html")) {
-    writeFileSync("pages/database.html", BuatDatabase());
-  }
+  // if (!existsSync("pages/database.html")) {
+  //   writeFileSync("pages/database.html", BuatDatabase());
+  // }
 }
 
 function generateTag(path) {
@@ -76,29 +76,73 @@ tulisDiIndex(file);
 function tulisDiIndex(file) {
   let konten = [];
   for (let x of file) {
-    konten.push(/*html*/ `
-      <template id="${x.id}">
-          <div>Home</div>
-          <p>Menuju ke <router-link to="/about">About</router-link></p>
-      </template>
 
-      <script>
-        routes.push({
-            path: '${x.tag}',
-            component: {
-                template: '#${x.id}',
-                mounted() {
-                    console.log('Ini di beranda');
-                }
-            }
-        });
-      </script>
-    `);
-    // konten.push(/*html*/ `
-    //         <div data-url="${x.tag}">
-    //             ${x.isinya}
-    //         </div>
-    //     `);
+    let script = '';
+    let terlarang = '';
+    let template = '';
+
+    template = x.isinya;
+    let patternScript = /(<script>\s+export default \{)([\s\S]+)(\}\s+<\/script>)/;
+    let dapatkanScript = template.match(patternScript);
+
+    if (dapatkanScript) {
+      script = dapatkanScript[0];
+      template = template.replace(script, "");
+
+      script = script.replace(patternScript, `<script>
+routes.push({
+    path: '${x.tag}',
+    component: {
+        template: '#${x.id}',
+        $2
+    }
+});
+</script>`);
+
+    } else {
+      script = `<script>
+      routes.push({
+          path: '${x.tag}',
+          component: {
+              template: '#${x.id}'
+          }
+      });
+      </script>`;
+    }
+
+    let patternScriptTerlarang = /<script>[\s\S]+<\/script>/g;
+    let scriptTerlarang = template.match(patternScriptTerlarang);
+    if (scriptTerlarang) {
+      template = template.replace(patternScriptTerlarang, "");
+    } else {
+      scriptTerlarang = [];
+    }
+
+    let patternScriptSrcTerlarang = /<script src=["'][\s\S]+["']><\/script>/g;
+    let scriptSrcTerlarang = template.match(patternScriptSrcTerlarang);
+    if (scriptSrcTerlarang) {
+      template = template.replace(patternScriptSrcTerlarang, "");
+    } else {
+      scriptSrcTerlarang = [];
+    }
+
+    let patternStyleTerlarang = /<style>[\s\S]+<\/style>/g;
+    let styleTerlarang = template.match(patternStyleTerlarang);
+    if (styleTerlarang) {
+      template = template.replace(patternStyleTerlarang, "");
+    } else {
+      styleTerlarang = [];
+    }
+
+    template = `<template id="${x.id}">${template}</template>`;
+
+    terlarang = [
+      ...scriptTerlarang,
+      ...scriptSrcTerlarang,
+      ...styleTerlarang
+    ].join('');
+
+    konten.push(template + terlarang + script);
   }
 
   let index = readFileSync("index.html").toString();
