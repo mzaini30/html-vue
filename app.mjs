@@ -5,13 +5,14 @@ import BuatIndex from "./app/buat-index.mjs";
 import BuatDatabase from "./app/buat-database.mjs";
 import fg from "fast-glob";
 import watch from "node-watch";
+import crypto from 'crypto';
 
 if (!existsSync("lib/")) {
   mkdirSync("lib");
   let library = [
     {
       name: "vue",
-      link: "https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.iife.js",
+      link: "https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js",
     },
     {
       name: "vue-router",
@@ -51,7 +52,13 @@ function generateTag(path) {
   return path
     .replace(/\.html$/, "")
     .replace(/^pages\//, "/")
-    .replace(/^\/index$/, "/");
+    .replace(/^\/index$/, "/")
+    .replaceAll('/_', '/:');
+}
+
+function generateId() {
+  let acak = crypto.randomUUID().split('-')[0];
+  return 'v-' + acak;
 }
 
 let file = [];
@@ -61,6 +68,7 @@ for (let x of htmlFiles) {
     path: x,
     tag: generateTag(x),
     isinya: readFileSync(x).toString(),
+    id: generateId()
   });
 }
 tulisDiIndex(file);
@@ -69,19 +77,37 @@ function tulisDiIndex(file) {
   let konten = [];
   for (let x of file) {
     konten.push(/*html*/ `
-            <div data-url="${x.tag}">
-                ${x.isinya}
-            </div>
-        `);
+      <template id="${x.id}">
+          <div>Home</div>
+          <p>Menuju ke <router-link to="/about">About</router-link></p>
+      </template>
+
+      <script>
+        routes.push({
+            path: '${x.tag}',
+            component: {
+                template: '#${x.id}',
+                mounted() {
+                    console.log('Ini di beranda');
+                }
+            }
+        });
+      </script>
+    `);
+    // konten.push(/*html*/ `
+    //         <div data-url="${x.tag}">
+    //             ${x.isinya}
+    //         </div>
+    //     `);
   }
 
   let index = readFileSync("index.html").toString();
   index = index
     .replace(
-      /(<html\-spa>)([\s\S]+)(<\/html\-spa>)/,
+      /(<html\-vue>)([\s\S]+)(<\/html\-vue>)/,
       "$1" + konten.join("") + "$3"
     )
-    .replace(/(<html\-spa>)(<\/html\-spa>)/, "$1" + konten.join("") + "$2");
+    .replace(/(<html\-vue>)(<\/html\-vue>)/, "$1" + konten.join("") + "$2");
   writeFileSync("index.html", index);
 }
 console.log("Aplikasi sudah siap");
@@ -103,6 +129,7 @@ watch(
           path: path,
           tag: generateTag(path),
           isinya: readFileSync(path).toString(),
+          id: generateId()
         });
 
         tulisDiIndex(file);
