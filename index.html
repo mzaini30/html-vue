@@ -1,164 +1,159 @@
 <!DOCTYPE html>
-<html lang="id">
+  <html lang="id">
+  
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>HTML Vue</title>
+  </head>
+  
+  <body>
+      <script src="./lib/vue.js"></script>
+      <script src="./lib/vue-router.js"></script>
+      <script src="./lib/alasql.js"></script>
+      <script src="./lib/swal.js"></script>
+      <script src="./lib/db.js"></script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Vue</title>
-</head>
-
-<body>
-    <script src="./lib/vue.js"></script>
-    <script src="./lib/vue-router.js"></script>
-    <script src="./lib/alasql.js"></script>
-    <script src="./lib/swal.js"></script>
-
-    <script>
+      <script>
         let routes = [];
-    </script>
+      </script>
+  
+      <div id="app">
+          <router-view></router-view>
+      </div>
+  
+      <html-vue><template id="v-799088e2">
+    
 
-    <div id="app">
-        <router-view></router-view>
-    </div>
-
-    <html-vue><template id="v-83f0842c">
 
 
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <ol>
 
+                    <li v-for="x in table">
+                        <a href="" @click.prevent="pilihTable(x)">
 
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <ol>
+                            {{ x }}
+                        </a>
+                    </li>
+                </ol>
+            </td>
+            <td>
+                <h1>{{ terpilihJudul }}</h1>
+                <table v-if="terpilihIsi.length > 0">
+                    <thead>
+                        <tr>
+                            <th v-for="(x, n) in terpilihIsi[0]">
+                                {{ n }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="x in terpilihIsi">
+                            <td v-for="n in x">{{ n }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>
+                <h2>Query</h2>
+                <form action="" @submit.prevent="jalankanQuery">
+                    <textarea name="" v-model="query" id="" cols="30" rows="10"></textarea>
+                    <input type="submit" value="Olahin">
+                </form>
+                <table v-if="queryIsi.length > 0">
+                    <thead>
+                        <tr>
+                            <th v-for="(x, n) in queryIsi[0]">{{ n }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="x in queryIsi">
+                            <td v-for="n in x">{{ n }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+    </template><style>
+    li {
+        margin-bottom: 10px;
+    }
 
-                                <li v-for="x in table">
-                                    <a href="" @click.prevent="pilihTable(x)">
+    td,
+    th {
+        border: 1px solid black;
+        padding: 10px;
+        vertical-align: top;
+    }
 
-                                        {{ x }}
-                                    </a>
-                                </li>
-                            </ol>
-                        </td>
-                        <td>
-                            <h1>{{ terpilihJudul }}</h1>
-                            <table v-if="terpilihIsi.length > 0">
-                                <thead>
-                                    <tr>
-                                        <th v-for="(x, n) in terpilihIsi[0]">
-                                            {{ n }}
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="x in terpilihIsi">
-                                        <td v-for="n in x">{{ n }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                        <td>
-                            <h2>Query</h2>
-                            <form action="" @submit.prevent="jalankanQuery">
-                                <textarea name="" v-model="query" id="" cols="30" rows="10"></textarea>
-                                <input type="submit" value="Olahin">
-                            </form>
-                            <table v-if="queryIsi.length > 0">
-                                <thead>
-                                    <tr>
-                                        <th v-for="(x, n) in queryIsi[0]">{{ n }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="x in queryIsi">
-                                        <td v-for="n in x">{{ n }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </template>
-        <style>
-            li {
-                margin-bottom: 10px;
+    table {
+        border-collapse: collapse;
+    }
+
+    input,
+    textarea {
+        display: block;
+        margin-bottom: 10px;
+    }
+</style><script>
+routes.push({
+    path: '/database',
+    component: {
+        template: '#v-799088e2',
+        
+        data() {
+            return {
+                table: [],
+                terpilihJudul: '',
+                terpilihIsi: [],
+                queryIsi: [],
+                query: ''
+            };
+        },
+        mounted() {
+            this.table = Object.keys(alasql.tables);
+            this.pilihTable(this.table[0]);
+        },
+        methods: {
+            pilihTable(table) {
+                this.terpilihJudul = table;
+                this.terpilihIsi = alasql('select * from ' + table);
+            },
+            jalankanQuery() {
+                this.queryIsi = alasql(this.query);
             }
-
-            td,
-            th {
-                border: 1px solid black;
-                padding: 10px;
-                vertical-align: top;
-            }
-
-            table {
-                border-collapse: collapse;
-            }
-
-            input,
-            textarea {
-                display: block;
-                margin-bottom: 10px;
-            }
-        </style>
-        <script>
-            routes.push({
-                path: '/database',
-                component: {
-                    template: '#v-83f0842c',
-
-                    data() {
-                        return {
-                            table: [],
-                            terpilihJudul: '',
-                            terpilihIsi: [],
-                            queryIsi: [],
-                            query: ''
-                        };
-                    },
-                    mounted() {
-                        this.table = Object.keys(alasql.tables);
-                        this.pilihTable(this.table[0]);
-                    },
-                    methods: {
-                        pilihTable(table) {
-                            this.terpilihJudul = table;
-                            this.terpilihIsi = alasql('select * from ' + table);
-                        },
-                        jalankanQuery() {
-                            this.queryIsi = alasql(this.query);
-                        }
-                    }
-
-                }
-            });
-        </script><template id="v-2253e888">
-            <h1>Hello World</h1>
-        </template>
-        <script>
-            routes.push({
-                path: '/',
-                component: {
-                    template: '#v-2253e888'
-                }
-            });
-        </script>
-    </html-vue>
-
-    <script>
-
-
-        const router = VueRouter.createRouter({
-            history: VueRouter.createWebHashHistory(),
-            routes,
-        });
-
-        const app = Vue.createApp({});
-        app.use(router);
-        app.mount('#app');
-
-    </script>
-</body>
-
-</html>
+        }
+    
+    }
+});
+</script><template id="v-2303a832"><h1>Hello World</h1></template><script>
+      routes.push({
+          path: '/',
+          component: {
+              template: '#v-2303a832'
+          }
+      });
+      </script></html-vue>
+  
+      <script>
+  
+  
+          const router = VueRouter.createRouter({
+              history: VueRouter.createWebHashHistory(),
+              routes,
+          });
+  
+          const app = Vue.createApp({});
+          app.use(router);
+          app.mount('#app');
+  
+      </script>
+  </body>
+  
+  </html>

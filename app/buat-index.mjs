@@ -13,6 +13,7 @@ export default function BuatIndex() {
       <script src="./lib/vue-router.js"></script>
       <script src="./lib/alasql.js"></script>
       <script src="./lib/swal.js"></script>
+      <script src="./lib/db.js"></script>
 
       <script>
         let routes = [];

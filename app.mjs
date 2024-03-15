@@ -27,6 +27,10 @@ if (!existsSync("lib/")) {
       name: "swal",
       link: "https://cdn.jsdelivr.net/npm/sweetalert2@11",
     },
+    {
+      name: "db",
+      link: "https://gist.githubusercontent.com/mzaini30/4cc377c8ba47b7452c1de0d9d4ce8476/raw/42fb6c2d46bf9d4f75a4855d59aa430725ea8df5/initDatabase.js",
+    },
   ];
   for (let lib of library) {
     if (!existsSync(`lib/${lib.name}.js`)) {
