@@ -21,18 +21,28 @@
         <router-view></router-view>
     </div>
 
-    <html-vue><template id="v-a2d91faf">
-            <h1>Hello World</h1>
-        </template>
-        <script>
-            routes.push({
-                path: '/',
-                component: {
-                    template: '#v-a2d91faf'
-                }
-            });
-        </script>
-    </html-vue>
+    <html-vue><template id="v-48e6bb39"></template><script>
+      routes.push({
+          path: '/baca-artikel/:idTulisan/tambahkan/komentar/:idKomentar',
+          component: {
+              template: '#v-48e6bb39'
+          }
+      });
+      </script><template id="v-e66adc1e">
+
+<h1>Hello World</h1></template><script>
+routes.push({
+    path: '/',
+    component: {
+        template: '#v-e66adc1e',
+        
+        mounted() {
+            console.log('Hello world');
+        }
+    
+    }
+});
+</script></html-vue>
 
     <script>
 

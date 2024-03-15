@@ -6,6 +6,7 @@ import BuatDatabase from "./app/buat-database.mjs";
 import fg from "fast-glob";
 import watch from "node-watch";
 import crypto from 'crypto';
+import { mdjsProcess } from '@mdjs/core';
 
 if (!existsSync("lib/")) {
   mkdirSync("lib");
@@ -51,6 +52,7 @@ if (!existsSync("pages/")) {
 function generateTag(path) {
   return path
     .replace(/\.html$/, "")
+    .replace(/\.md$/, "")
     .replace(/^pages\//, "/")
     .replace(/^\/index$/, "/")
     .replaceAll('/_', '/:');
@@ -62,12 +64,24 @@ function generateId() {
 }
 
 let file = [];
-let htmlFiles = fg.sync("pages/**/*.html");
+let htmlFiles = fg.sync("pages/**/*.{html,md}");
 for (let x of htmlFiles) {
+  let isinya = readFileSync(x).toString();
+  if (x.endsWith('.md')) {
+    let jadiHtml = await mdjsProcess(isinya);
+    let hasil = `
+    <script>
+        ${jadiHtml.jsCode.replace(/;$/, '')}
+    </script>
+    
+    ${jadiHtml.html}
+    `;
+    isinya = hasil;
+  }
   file.push({
     path: x,
     tag: generateTag(x),
-    isinya: readFileSync(x).toString(),
+    isinya,
     id: generateId()
   });
 }
@@ -82,7 +96,7 @@ function tulisDiIndex(file) {
     let template = '';
 
     template = x.isinya;
-    let patternScript = /(<script>\s+export default \{)([\s\S]+)(\}\s+<\/script>)/;
+    let patternScript = /(<script>\s+export default \{)([\s\S]+)(\};*\s+<\/script>)/;
     let dapatkanScript = template.match(patternScript);
 
     if (dapatkanScript) {
@@ -161,18 +175,33 @@ watch(
   {
     recursive: true,
   },
-  (evt, name) => {
-    if (name.endsWith('.html')) {
+  async (evt, name) => {
+    if (name.endsWith('.html') || name.endsWith('.md')) {
       let path = name.replaceAll("\\", "/");
       console.log(evt, name);
       if (evt == "update") {
         // on create or modify
         file = file.filter((x) => x.path != path);
 
+        let isinya = readFileSync(path).toString();
+
+
+        if (path.endsWith('.md')) {
+          let jadiHtml = await mdjsProcess(isinya);
+          let hasil = `
+          <script>
+              ${jadiHtml.jsCode.replace(/;$/, '')}
+          </script>
+          
+          ${jadiHtml.html}
+          `;
+          isinya = hasil;
+        }
+
         file.push({
           path: path,
           tag: generateTag(path),
-          isinya: readFileSync(path).toString(),
+          isinya,
           id: generateId()
         });
 
