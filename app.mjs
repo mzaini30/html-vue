@@ -44,9 +44,9 @@ if (!existsSync("pages/")) {
   if (!existsSync("pages/index.html")) {
     writeFileSync("pages/index.html", /*html*/ `<h1>Hello World</h1>`);
   }
-  // if (!existsSync("pages/database.html")) {
-  //   writeFileSync("pages/database.html", BuatDatabase());
-  // }
+  if (!existsSync("pages/database.html")) {
+    writeFileSync("pages/database.html", BuatDatabase());
+  }
 }
 
 function generateTag(path) {
