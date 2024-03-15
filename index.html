@@ -21,39 +21,18 @@
         <router-view></router-view>
     </div>
 
-    <html-vue><template id="v-a770c337">
-
-<p>Ini adalah about</p></template><script>
-routes.push({
-    path: '/about',
-    component: {
-        template: '#v-a770c337',
-        
-        mounted() {
-
-            document.title = 'About';
-        }
-    
-    }
-});
-</script><template id="v-0b9f4b78">
-
-
-<p>Ini adalah beranda</p>
-<router-link to="/about">About</router-link></template><script>
-routes.push({
-    path: '/',
-    component: {
-        template: '#v-0b9f4b78',
-        
-        mounted() {
-            console.log('Masuk ke aplikasi');
-            document.title = 'Beranda';
-        }
-    
-    }
-});
-</script></html-vue>
+    <html-vue><template id="v-a2d91faf">
+            <h1>Hello World</h1>
+        </template>
+        <script>
+            routes.push({
+                path: '/',
+                component: {
+                    template: '#v-a2d91faf'
+                }
+            });
+        </script>
+    </html-vue>
 
     <script>
 
