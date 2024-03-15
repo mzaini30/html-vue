@@ -2,6 +2,12 @@
 
 Membuat website itu harusnya sesimpel ini. Tanpa Bundler. Bisa dibuka di protocol `file:///`.
 
+## Video Cara Pakai
+
+Klik gambar di bawah ini ya.
+
+[![Video](./aset/cover-youtube.png)](https://youtu.be/sIOGCxSFQrE)
+
 ## Install
 
 ```bash
