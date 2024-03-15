@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-  <html lang="id">
-  
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>HTML Vue</title>
-  </head>
-  
-  <body>
-      <script src="./lib/vue.js"></script>
-      <script src="./lib/vue-router.js"></script>
-      <script src="./lib/alasql.js"></script>
-      <script src="./lib/swal.js"></script>
+<html lang="id">
 
-      <script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Vue</title>
+</head>
+
+<body>
+    <script src="./lib/vue.js"></script>
+    <script src="./lib/vue-router.js"></script>
+    <script src="./lib/alasql.js"></script>
+    <script src="./lib/swal.js"></script>
+
+    <script>
         let routes = [];
-      </script>
-  
-      <div id="app">
-          <router-view></router-view>
-      </div>
-  
-      <html-vue>
-      <template id="v-0a4a98c2">
+    </script>
+
+    <div id="app">
+        <router-view></router-view>
+    </div>
+
+    <html-vue>
+      <template id="v-69f228bd">
           <div>Home</div>
           <p>Menuju ke <router-link to="/about">About</router-link></p>
       </template>
@@ -31,7 +31,7 @@
         routes.push({
             path: '/',
             component: {
-                template: '#v-0a4a98c2',
+                template: '#v-69f228bd',
                 mounted() {
                     console.log('Ini di beranda');
                 }
@@ -39,7 +39,7 @@
         });
       </script>
     
-      <template id="v-886bdd54">
+      <template id="v-c52786ae">
           <div>Home</div>
           <p>Menuju ke <router-link to="/about">About</router-link></p>
       </template>
@@ -48,7 +48,7 @@
         routes.push({
             path: '/:tes',
             component: {
-                template: '#v-886bdd54',
+                template: '#v-c52786ae',
                 mounted() {
                     console.log('Ini di beranda');
                 }
@@ -56,20 +56,20 @@
         });
       </script>
     </html-vue>
+
+    <script>
+
+
+        const router = VueRouter.createRouter({
+            history: VueRouter.createWebHashHistory(),
+            routes,
+        });
+
+        const app = Vue.createApp({});
+        app.use(router);
+        app.mount('#app');
   
-      <script>
+      </s >
+  </body >
   
-  
-          const router = VueRouter.createRouter({
-              history: VueRouter.createWebHashHistory(),
-              routes,
-          });
-  
-          const app = Vue.createApp({});
-          app.use(router);
-          app.mount('#app');
-  
-      </s>
-  </body>
-  
-  </html>
+  </html >;
