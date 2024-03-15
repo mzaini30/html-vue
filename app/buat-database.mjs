@@ -13,7 +13,7 @@ export default function BuatDatabase() {
         },
         mounted() {
             this.table = Object.keys(alasql.tables);
-            this.pilihTable(this.table[0]);
+            this.pilihTable(this.table.sort()[0]);
         },
         methods: {
             pilihTable(table) {
@@ -56,7 +56,7 @@ export default function BuatDatabase() {
             <td>
                 <ol>
 
-                    <li v-for="x in table">
+                    <li v-for="x in table.sort()">
                         <a href="" @click.prevent="pilihTable(x)">
 
                             {{ x }}
