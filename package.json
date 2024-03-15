@@ -1,7 +1,7 @@
 {
-	"name": "html-vue",
+	"name": "future-web",
 	"bin": {
-		"spa": "./app-bundle.js"
+		"web": "./app-bundle.js"
 	},
 	"version": "0.0.1",
 	"scripts": {
