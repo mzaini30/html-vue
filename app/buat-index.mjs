@@ -14,6 +14,13 @@ export default function BuatIndex() {
       <script src="./lib/alasql.js"></script>
       <script src="./lib/swal.js"></script>
       <script src="./lib/db.js"></script>
+      <link rel="stylesheet" href="./lib/pico.css">
+
+      <style>
+        body {
+            padding: 20px;
+        }
+      </style>
 
       <script>
         let routes = [];

@@ -13,6 +13,13 @@
       <script src="./lib/alasql.js"></script>
       <script src="./lib/swal.js"></script>
       <script src="./lib/db.js"></script>
+      <link rel="stylesheet" href="./lib/pico.css">
+
+      <style>
+        body {
+            padding: 20px;
+        }
+      </style>
 
       <script>
         let routes = [];
@@ -22,7 +29,7 @@
           <router-view></router-view>
       </div>
   
-      <html-vue><template id="v-799088e2">
+      <html-vue><template id="v-dcfc3923">
     
 
 
@@ -33,7 +40,7 @@
             <td>
                 <ol>
 
-                    <li v-for="x in table">
+                    <li v-for="x in table.sort()">
                         <a href="" @click.prevent="pilihTable(x)">
 
                             {{ x }}
@@ -105,7 +112,7 @@
 routes.push({
     path: '/database',
     component: {
-        template: '#v-799088e2',
+        template: '#v-dcfc3923',
         
         data() {
             return {
@@ -118,7 +125,7 @@ routes.push({
         },
         mounted() {
             this.table = Object.keys(alasql.tables);
-            this.pilihTable(this.table[0]);
+            this.pilihTable(this.table.sort()[0]);
         },
         methods: {
             pilihTable(table) {
@@ -132,11 +139,11 @@ routes.push({
     
     }
 });
-</script><template id="v-2303a832"><h1>Hello World</h1></template><script>
+</script><template id="v-b261132b"><h1>Hello World</h1></template><script>
       routes.push({
           path: '/',
           component: {
-              template: '#v-2303a832'
+              template: '#v-b261132b'
           }
       });
       </script></html-vue>

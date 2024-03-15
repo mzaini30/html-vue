@@ -22,6 +22,7 @@ Nanti otomatis akan menjalankan mode watch. Jadi, udah sih, perintahnya `web` aj
 - Swal
 - Vue Router
 - Vue
+- Pico CSS
 
 ## Struktur Direktori
 

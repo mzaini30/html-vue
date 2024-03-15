@@ -39,6 +39,19 @@ if (!existsSync("lib/")) {
         .then((x) => writeFileSync(`lib/${lib.name}.js`, x));
     }
   }
+  let libraryCss = [
+    {
+      name: "pico",
+      link: "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css",
+    },
+  ];
+  for (let lib of libraryCss) {
+    if (!existsSync(`lib/${lib.name}.css`)) {
+      fetch(lib.link)
+        .then((x) => x.text())
+        .then((x) => writeFileSync(`lib/${lib.name}.css`, x));
+    }
+  }
 }
 if (!existsSync("index.html")) {
   writeFileSync("index.html", BuatIndex());
