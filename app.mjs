@@ -103,9 +103,9 @@ async function mengolah() {
       id: generateId()
     });
   }
+  tulisDiIndex(file);
 }
 mengolah();
-tulisDiIndex(file);
 
 function tulisDiIndex(file) {
   let konten = [];
