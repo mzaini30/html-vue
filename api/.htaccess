@@ -1,0 +1,4 @@
+<FilesMatch "database.sqlite">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>

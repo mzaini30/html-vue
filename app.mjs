@@ -8,6 +8,23 @@ import watch from "node-watch";
 import crypto from 'crypto';
 import { mdjsProcess } from '@mdjs/core';
 
+if (!existsSync('.gitignore')) {
+  writeFileSync('.gitignore', 'database.sqlite');
+}
+
+if (!existsSync('api/')) {
+  mkdirSync("api");
+  if (!existsSync('api/rb.php')) {
+    fetch('https://raw.githubusercontent.com/mzaini30/redbean-sqlite/master/rb-sqlite.php').then(x => x.text()).then(x => writeFileSync('api/rb.php', x));
+  }
+  if (!existsSync('api/.htaccess')) {
+    writeFileSync('api/.htaccess', `<FilesMatch "database.sqlite">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>`);
+  }
+}
+
 if (!existsSync("lib/")) {
   mkdirSync("lib");
   let library = [
