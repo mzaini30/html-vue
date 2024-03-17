@@ -17,6 +17,9 @@ if (!existsSync('api/')) {
   if (!existsSync('api/rb.php')) {
     fetch('https://raw.githubusercontent.com/mzaini30/redbean-sqlite/master/rb-sqlite.php').then(x => x.text()).then(x => writeFileSync('api/rb.php', x));
   }
+  if (!existsSync('api/database.sqlite')) {
+    writeFileSync('api/database.sqlite', '');
+  }
   if (!existsSync('api/.htaccess')) {
     writeFileSync('api/.htaccess', `<FilesMatch "database.sqlite">
     Order Allow,Deny
