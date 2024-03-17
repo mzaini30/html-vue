@@ -48,6 +48,11 @@ export default function BuatDatabase() {
         display: block;
         margin-bottom: 10px;
     }
+    .table-tengah {
+        display: inline-block;
+        overflow: auto;
+        width: 50vw;
+    }
 </style>
 
 <table>
@@ -64,7 +69,7 @@ export default function BuatDatabase() {
                     </li>
                 </ol>
             </td>
-            <td>
+            <td class="table-tengah">
                 <h1>{{ terpilihJudul }}</h1>
                 <table v-if="terpilihIsi.length > 0">
                     <thead>
