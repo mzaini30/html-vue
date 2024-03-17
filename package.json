@@ -3,7 +3,7 @@
 	"bin": {
 		"web": "./app-bundle.js"
 	},
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"scripts": {
 		"build": "esbuild ./app.mjs --minify --bundle --platform=node --outfile=./app-bundle.js",
 		"prepublishOnly": "pnpm build"
