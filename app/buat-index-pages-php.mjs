@@ -1,7 +1,7 @@
 export default function BuatIndexPagesPhp() {
   return /*php*/ `<?php
 
-    get('/', function () {
+    get('/api', function () {
         echo 'hello world';
     });`;
 }
