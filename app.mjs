@@ -39,9 +39,13 @@ if (!existsSync("api/")) {
     writeFileSync(
       "api/.htaccess",
       `<FilesMatch "database.sqlite">
-    Order Allow,Deny
-    Deny from all
-</FilesMatch>`
+      Order Allow,Deny
+      Deny from all
+  </FilesMatch>
+  
+  RewriteEngine On
+  RewriteCond %{REQUEST_URI} !(\.png|\.jpg|\.webp|\.gif|\.jpeg|\.zip|\.css|\.svg|\.js|\.pdf)$
+  RewriteRule (.*) index.php [QSA,L]`
     );
   }
   if (!existsSync("api/index.php")) {
