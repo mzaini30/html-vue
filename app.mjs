@@ -5,26 +5,47 @@ import BuatIndex from "./app/buat-index.mjs";
 import BuatDatabase from "./app/buat-database.mjs";
 import fg from "fast-glob";
 import watch from "node-watch";
-import crypto from 'crypto';
-import { mdjsProcess } from '@mdjs/core';
+import crypto from "crypto";
+import { mdjsProcess } from "@mdjs/core";
+import BuatRouter from "./app/buat-router.mjs";
+import BuatIndexPagesPhp from "./app/buat-index-pages-php.mjs";
+import BuatIndexPhp from "./app/buat-index-php.mjs";
 
-if (!existsSync('.gitignore')) {
-  writeFileSync('.gitignore', 'database.sqlite');
+if (!existsSync(".gitignore")) {
+  writeFileSync(".gitignore", "database.sqlite");
 }
 
-if (!existsSync('api/')) {
+if (!existsSync("api/")) {
   mkdirSync("api");
-  if (!existsSync('api/rb.php')) {
-    fetch('https://raw.githubusercontent.com/mzaini30/redbean-sqlite/master/rb-sqlite.php').then(x => x.text()).then(x => writeFileSync('api/rb.php', x));
+  mkdirSync("api/lib");
+  mkdirSync("api/pages");
+  if (!existsSync("api/lib/rb.php")) {
+    fetch(
+      "https://raw.githubusercontent.com/mzaini30/redbean-sqlite/master/rb-sqlite.php"
+    )
+      .then((x) => x.text())
+      .then((x) => writeFileSync("api/lib/rb.php", x));
   }
-  if (!existsSync('api/database.sqlite')) {
-    writeFileSync('api/database.sqlite', '');
+  if (!existsSync("api/lib/router.php")) {
+    writeFileSync("api/lib/router.php", BuatRouter());
   }
-  if (!existsSync('api/.htaccess')) {
-    writeFileSync('api/.htaccess', `<FilesMatch "database.sqlite">
+  if (!existsSync("api/pages/index.php")) {
+    writeFileSync("api/pages/index.php", BuatIndexPagesPhp());
+  }
+  if (!existsSync("api/database.sqlite")) {
+    writeFileSync("api/database.sqlite", "");
+  }
+  if (!existsSync("api/.htaccess")) {
+    writeFileSync(
+      "api/.htaccess",
+      `<FilesMatch "database.sqlite">
     Order Allow,Deny
     Deny from all
-</FilesMatch>`);
+</FilesMatch>`
+    );
+  }
+  if (!existsSync("api/index.php")) {
+    writeFileSync("api/index.php", BuatIndexPhp());
   }
 }
 
@@ -92,12 +113,12 @@ function generateTag(path) {
     .replace(/\.md$/, "")
     .replace(/^pages\//, "/")
     .replace(/^\/index$/, "/")
-    .replaceAll('/_', '/:');
+    .replaceAll("/_", "/:");
 }
 
 function generateId() {
-  let acak = crypto.randomUUID().split('-')[0];
-  return 'v-' + acak;
+  let acak = crypto.randomUUID().split("-")[0];
+  return "v-" + acak;
 }
 
 let file = [];
@@ -105,11 +126,11 @@ let htmlFiles = fg.sync("pages/**/*.{html,md}");
 async function mengolah() {
   for (let x of htmlFiles) {
     let isinya = readFileSync(x).toString();
-    if (x.endsWith('.md')) {
+    if (x.endsWith(".md")) {
       let jadiHtml = await mdjsProcess(isinya);
       let hasil = `
     <script>
-        ${jadiHtml.jsCode.replace(/;$/, '')}
+        ${jadiHtml.jsCode.replace(/;$/, "")}
     </script>
     
     ${jadiHtml.html}
@@ -120,7 +141,7 @@ async function mengolah() {
       path: x,
       tag: generateTag(x),
       isinya,
-      id: generateId()
+      id: generateId(),
     });
   }
   tulisDiIndex(file);
@@ -130,20 +151,22 @@ mengolah();
 function tulisDiIndex(file) {
   let konten = [];
   for (let x of file) {
-
-    let script = '';
-    let terlarang = '';
-    let template = '';
+    let script = "";
+    let terlarang = "";
+    let template = "";
 
     template = x.isinya;
-    let patternScript = /(<script>\s+export default \{)([\s\S]+)(\};*\s+<\/script>)/;
+    let patternScript =
+      /(<script>\s+export default \{)([\s\S]+)(\};*\s+<\/script>)/;
     let dapatkanScript = template.match(patternScript);
 
     if (dapatkanScript) {
       script = dapatkanScript[0];
       template = template.replace(script, "");
 
-      script = script.replace(patternScript, `<script>
+      script = script.replace(
+        patternScript,
+        `<script>
 routes.push({
     path: '${x.tag}',
     component: {
@@ -151,8 +174,8 @@ routes.push({
         $2
     }
 });
-</script>`);
-
+</script>`
+      );
     } else {
       script = `<script>
       routes.push({
@@ -193,8 +216,8 @@ routes.push({
     terlarang = [
       ...scriptTerlarang,
       ...scriptSrcTerlarang,
-      ...styleTerlarang
-    ].join('');
+      ...styleTerlarang,
+    ].join("");
 
     konten.push(template + terlarang + script);
   }
@@ -216,7 +239,7 @@ watch(
     recursive: true,
   },
   async (evt, name) => {
-    if (name.endsWith('.html') || name.endsWith('.md')) {
+    if (name.endsWith(".html") || name.endsWith(".md")) {
       let path = name.replaceAll("\\", "/");
       console.log(evt, name);
       if (evt == "update") {
@@ -225,12 +248,11 @@ watch(
 
         let isinya = readFileSync(path).toString();
 
-
-        if (path.endsWith('.md')) {
+        if (path.endsWith(".md")) {
           let jadiHtml = await mdjsProcess(isinya);
           let hasil = `
           <script>
-              ${jadiHtml.jsCode.replace(/;$/, '')}
+              ${jadiHtml.jsCode.replace(/;$/, "")}
           </script>
           
           ${jadiHtml.html}
@@ -242,7 +264,7 @@ watch(
           path: path,
           tag: generateTag(path),
           isinya,
-          id: generateId()
+          id: generateId(),
         });
 
         tulisDiIndex(file);

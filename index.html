@@ -4,7 +4,7 @@
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>HTML Vue</title>
+      <title>Future Web</title>
   </head>
   
   <body>
@@ -29,7 +29,7 @@
           <router-view></router-view>
       </div>
   
-      <html-vue><template id="v-9ba0b00f">
+      <html-vue><template id="v-3a0fa543">
     
 
 
@@ -48,7 +48,7 @@
                     </li>
                 </ol>
             </td>
-            <td>
+            <td class="table-tengah">
                 <h1>{{ terpilihJudul }}</h1>
                 <table v-if="terpilihIsi.length > 0">
                     <thead>
@@ -108,11 +108,16 @@
         display: block;
         margin-bottom: 10px;
     }
+    .table-tengah {
+        display: inline-block;
+        overflow: auto;
+        width: 50vw;
+    }
 </style><script>
 routes.push({
     path: '/database',
     component: {
-        template: '#v-9ba0b00f',
+        template: '#v-3a0fa543',
         
         data() {
             return {
@@ -139,38 +144,11 @@ routes.push({
     
     }
 });
-</script><template id="v-b38c7582">
-    
-    
-    <h1 id="hai"><a aria-hidden="true" tabindex="-1" href="#hai"><span class="icon icon-link"></span></a>Hai</h1>
-    </template><script>
-        
-    </script><script>
-      routes.push({
-          path: '/hai',
-          component: {
-              template: '#v-b38c7582'
-          }
-      });
-      </script><template id="v-47b94341"><h1>Hello World</h1></template><script>
+</script><template id="v-849e0898"><h1>Hello World</h1></template><script>
       routes.push({
           path: '/',
           component: {
-              template: '#v-47b94341'
-          }
-      });
-      </script><template id="v-0186468d">
-          
-          
-          <h1 id="satu"><a aria-hidden="true" tabindex="-1" href="#satu"><span class="icon icon-link"></span></a>Satu</h1>
-<p>...</p>
-          </template><script>
-              
-          </script><script>
-      routes.push({
-          path: '/tes/satu',
-          component: {
-              template: '#v-0186468d'
+              template: '#v-849e0898'
           }
       });
       </script></html-vue>

@@ -1,11 +1,11 @@
 export default function BuatIndex() {
-    return /*html*/ `<!DOCTYPE html>
+  return /*html*/ `<!DOCTYPE html>
   <html lang="id">
   
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>HTML Vue</title>
+      <title>Future Web</title>
   </head>
   
   <body>

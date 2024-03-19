@@ -29,6 +29,8 @@ Nanti otomatis akan menjalankan mode watch. Jadi, udah sih, perintahnya `web` aj
 - Vue Router
 - Vue
 - Pico CSS
+- RedBean
+- PHP Router
 
 ## Struktur Direktori
 
