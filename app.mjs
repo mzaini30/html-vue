@@ -225,10 +225,10 @@ routes.push({
   let index = readFileSync("index.html").toString();
   index = index
     .replace(
-      /(<html\-vue>)([\s\S]+)(<\/html\-vue>)/,
+      /(<html\-vue\s*>)([\s\S]+)(<\/html\-vue\s*>)/,
       "$1" + konten.join("") + "$3"
     )
-    .replace(/(<html\-vue>)(<\/html\-vue>)/, "$1" + konten.join("") + "$2");
+    .replace(/(<html\-vue\s*>)(<\/html\-vue\s*>)/, "$1" + konten.join("") + "$2");
   writeFileSync("index.html", index);
 }
 console.log("Aplikasi sudah siap");
