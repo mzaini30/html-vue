@@ -7,29 +7,27 @@
  */
 
 // HTML Minifier
-function minify_html($input)
-{
-    if (trim($input) === "")
-        return $input;
+function minify_html($input) {
+    if(trim($input) === "") return $input;
     // Remove extra white-space(s) between HTML attribute(s)
-    $input = preg_replace_callback('#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', function ($matches) {
+    $input = preg_replace_callback('#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', function($matches) {
         return '<' . $matches[1] . preg_replace('#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s', ' $1$2', $matches[2]) . $matches[3] . '>';
     }, str_replace("\r", "", $input));
     // Minify inline CSS declaration(s)
-    if (strpos($input, ' style=') !== false) {
-        $input = preg_replace_callback('#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', function ($matches) {
+    if(strpos($input, ' style=') !== false) {
+        $input = preg_replace_callback('#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', function($matches) {
             return '<' . $matches[1] . ' style=' . $matches[2] . minify_css($matches[3]) . $matches[2];
         }, $input);
     }
-    if (strpos($input, '</style>') !== false) {
-        $input = preg_replace_callback('#<style(.*?)>(.*?)</style>#is', function ($matches) {
-            return '<style' . $matches[1] . '>' . minify_css($matches[2]) . '</style>';
-        }, $input);
+    if(strpos($input, '</style>') !== false) {
+      $input = preg_replace_callback('#<style(.*?)>(.*?)</style>#is', function($matches) {
+        return '<style' . $matches[1] .'>'. minify_css($matches[2]) . '</style>';
+      }, $input);
     }
-    if (strpos($input, '</script>') !== false) {
-        $input = preg_replace_callback('#<script(.*?)>(.*?)</script>#is', function ($matches) {
-            return '<script' . $matches[1] . '>' . minify_js($matches[2]) . '</script>';
-        }, $input);
+    if(strpos($input, '</script>') !== false) {
+      $input = preg_replace_callback('#<script(.*?)>(.*?)</script>#is', function($matches) {
+        return '<script' . $matches[1] .'>'. minify_js($matches[2]) . '</script>';
+      }, $input);
     }
 
     return preg_replace(
@@ -63,15 +61,12 @@ function minify_html($input)
             '$1',
             ""
         ),
-        $input
-    );
+    $input);
 }
 
 // CSS Minifier => http://ideone.com/Q5USEF + improvement(s)
-function minify_css($input)
-{
-    if (trim($input) === "")
-        return $input;
+function minify_css($input) {
+    if(trim($input) === "") return $input;
     return preg_replace(
         array(
             // Remove comment(s)
@@ -109,15 +104,12 @@ function minify_css($input)
             '$1:0',
             '$1$2'
         ),
-        $input
-    );
+    $input);
 }
 
 // JavaScript Minifier
-function minify_js($input)
-{
-    if (trim($input) === "")
-        return $input;
+function minify_js($input) {
+    if(trim($input) === "") return $input;
     return preg_replace(
         array(
             // Remove comment(s)
@@ -138,6 +130,5 @@ function minify_js($input)
             '$1$3',
             '$1.$3'
         ),
-        $input
-    );
+    $input);
 }

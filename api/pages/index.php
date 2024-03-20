@@ -1,5 +1,5 @@
 <?php
 
-get('/', function () {
-    echo 'hello world';
-});
+    get('/api', function () {
+        echo 'hello world';
+    });

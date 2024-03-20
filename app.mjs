@@ -11,9 +11,18 @@ import BuatRouter from "./app/buat-router.mjs";
 import BuatIndexPagesPhp from "./app/buat-index-pages-php.mjs";
 import BuatIndexPhp from "./app/buat-index-php.mjs";
 
-function menulisFile(namaFile, konten) {
+function membuatFile(namaFile, konten) {
   if (!existsSync(namaFile)) {
     writeFileSync(namaFile, konten);
+  }
+}
+async function membuatFileDownload(namaFile, link) {
+  if (!existsSync(namaFile)) {
+    let library = await fetch(
+      link
+    );
+    library = await library.text();
+    writeFileSync(namaFile, library);
   }
 }
 function membuatFolder(namaFolder) {
@@ -26,19 +35,19 @@ membuatFolder("api");
 membuatFolder("api/lib");
 membuatFolder("api/pages");
 
-menulisFile(".gitignore", "database.sqlite");
-menulisFile(
+membuatFile(".gitignore", "database.sqlite");
+membuatFile(
   "index.php",
   `<?php
 require './lib/minify.php';
 $html = file_get_contents('./index.html');
 echo minify_html($html);`
 );
-menulisFile("api/lib/router.php", BuatRouter());
-menulisFile("api/pages/index.php", BuatIndexPagesPhp());
-menulisFile("api/database.sqlite", "");
-menulisFile("api/index.php", BuatIndexPhp());
-menulisFile(
+membuatFile("api/lib/router.php", BuatRouter());
+membuatFile("api/pages/index.php", BuatIndexPagesPhp());
+membuatFile("api/database.sqlite", "");
+membuatFile("api/index.php", BuatIndexPhp());
+membuatFile(
   "api/.htaccess",
   `<FilesMatch "database.sqlite">
 Order Allow,Deny
@@ -50,71 +59,49 @@ RewriteCond %{REQUEST_URI} !(\.png|\.jpg|\.webp|\.gif|\.jpeg|\.zip|\.css|\.svg|\
 RewriteRule (.*) index.php [QSA,L]`
 );
 
-if (!existsSync("api/lib/rb.php")) {
-  fetch(
-    "https://raw.githubusercontent.com/mzaini30/redbean-sqlite/master/rb-sqlite.php"
-  )
-    .then((x) => x.text())
-    .then((x) => writeFileSync("api/lib/rb.php", x));
-}
+membuatFileDownload('api/lib/rb.php', "https://raw.githubusercontent.com/mzaini30/redbean-sqlite/master/rb-sqlite.php");
 
-if (!existsSync("lib/")) {
-  mkdirSync("lib");
-  let library = [
-    {
-      name: "vue",
-      link: "https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js",
-    },
-    {
-      name: "vue-router",
-      link: "https://unpkg.com/vue-router@4.3.0/dist/vue-router.global.prod.js",
-    },
-    {
-      name: "alasql",
-      link: "https://cdn.jsdelivr.net/npm/alasql@4",
-    },
-    {
-      name: "swal",
-      link: "https://cdn.jsdelivr.net/npm/sweetalert2@11",
-    },
-    {
-      name: "db",
-      link: "https://gist.githubusercontent.com/mzaini30/4cc377c8ba47b7452c1de0d9d4ce8476/raw/42fb6c2d46bf9d4f75a4855d59aa430725ea8df5/initDatabase.js",
-    },
-  ];
-  for (let lib of library) {
-    if (!existsSync(`lib/${lib.name}.js`)) {
-      fetch(lib.link)
-        .then((x) => x.text())
-        .then((x) => writeFileSync(`lib/${lib.name}.js`, x));
-    }
-  }
-  let libraryCss = [
-    {
-      name: "pico",
-      link: "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css",
-    },
-  ];
-  for (let lib of libraryCss) {
-    if (!existsSync(`lib/${lib.name}.css`)) {
-      fetch(lib.link)
-        .then((x) => x.text())
-        .then((x) => writeFileSync(`lib/${lib.name}.css`, x));
-    }
-  }
+
+membuatFolder('lib');
+membuatFileDownload('lib/minify.php', 'https://gist.githubusercontent.com/Rodrigo54/93169db48194d470188f/raw/774c625080b43b858a9c99aca7ff3ae48819fbc5/php-html-css-js-minifier.php');
+let library = [
+  {
+    name: "vue",
+    link: "https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js",
+  },
+  {
+    name: "vue-router",
+    link: "https://unpkg.com/vue-router@4.3.0/dist/vue-router.global.prod.js",
+  },
+  {
+    name: "alasql",
+    link: "https://cdn.jsdelivr.net/npm/alasql@4",
+  },
+  {
+    name: "swal",
+    link: "https://cdn.jsdelivr.net/npm/sweetalert2@11",
+  },
+  {
+    name: "db",
+    link: "https://gist.githubusercontent.com/mzaini30/4cc377c8ba47b7452c1de0d9d4ce8476/raw/42fb6c2d46bf9d4f75a4855d59aa430725ea8df5/initDatabase.js",
+  },
+];
+for (let lib of library) {
+  membuatFileDownload(`lib/${lib.name}.js`, lib.link);
 }
-if (!existsSync("index.html")) {
-  writeFileSync("index.html", BuatIndex());
+let libraryCss = [
+  {
+    name: "pico",
+    link: "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css",
+  },
+];
+for (let lib of libraryCss) {
+  membuatFileDownload(`lib/${lib.name}.css`, lib.link);
 }
-if (!existsSync("pages/")) {
-  mkdirSync("pages");
-  if (!existsSync("pages/index.html")) {
-    writeFileSync("pages/index.html", /*html*/ `<h1>Hello World</h1>`);
-  }
-  if (!existsSync("pages/database.html")) {
-    writeFileSync("pages/database.html", BuatDatabase());
-  }
-}
+membuatFile('index.html', BuatIndex());
+membuatFolder('pages');
+membuatFile('pages/index.html', /*html*/ `<h1>Hello World</h1>`);
+membuatFile("pages/database.html", BuatDatabase());
 
 function generateTag(path) {
   return path
