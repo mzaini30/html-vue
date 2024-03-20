@@ -11,46 +11,51 @@ import BuatRouter from "./app/buat-router.mjs";
 import BuatIndexPagesPhp from "./app/buat-index-pages-php.mjs";
 import BuatIndexPhp from "./app/buat-index-php.mjs";
 
-if (!existsSync(".gitignore")) {
-  writeFileSync(".gitignore", "database.sqlite");
+function menulisFile(namaFile, konten) {
+  if (!existsSync(namaFile)) {
+    writeFileSync(namaFile, konten);
+  }
+}
+function membuatFolder(namaFolder) {
+  if (!existsSync(namaFolder + "/")) {
+    mkdirSync(namaFolder);
+  }
 }
 
-if (!existsSync("api/")) {
-  mkdirSync("api");
-  mkdirSync("api/lib");
-  mkdirSync("api/pages");
-  if (!existsSync("api/lib/rb.php")) {
-    fetch(
-      "https://raw.githubusercontent.com/mzaini30/redbean-sqlite/master/rb-sqlite.php"
-    )
-      .then((x) => x.text())
-      .then((x) => writeFileSync("api/lib/rb.php", x));
-  }
-  if (!existsSync("api/lib/router.php")) {
-    writeFileSync("api/lib/router.php", BuatRouter());
-  }
-  if (!existsSync("api/pages/index.php")) {
-    writeFileSync("api/pages/index.php", BuatIndexPagesPhp());
-  }
-  if (!existsSync("api/database.sqlite")) {
-    writeFileSync("api/database.sqlite", "");
-  }
-  if (!existsSync("api/.htaccess")) {
-    writeFileSync(
-      "api/.htaccess",
-      `<FilesMatch "database.sqlite">
-      Order Allow,Deny
-      Deny from all
-  </FilesMatch>
-  
-  RewriteEngine On
-  RewriteCond %{REQUEST_URI} !(\.png|\.jpg|\.webp|\.gif|\.jpeg|\.zip|\.css|\.svg|\.js|\.pdf)$
-  RewriteRule (.*) index.php [QSA,L]`
-    );
-  }
-  if (!existsSync("api/index.php")) {
-    writeFileSync("api/index.php", BuatIndexPhp());
-  }
+membuatFolder("api");
+membuatFolder("api/lib");
+membuatFolder("api/pages");
+
+menulisFile(".gitignore", "database.sqlite");
+menulisFile(
+  "index.php",
+  `<?php
+require './lib/minify.php';
+$html = file_get_contents('./index.html');
+echo minify_html($html);`
+);
+menulisFile("api/lib/router.php", BuatRouter());
+menulisFile("api/pages/index.php", BuatIndexPagesPhp());
+menulisFile("api/database.sqlite", "");
+menulisFile("api/index.php", BuatIndexPhp());
+menulisFile(
+  "api/.htaccess",
+  `<FilesMatch "database.sqlite">
+Order Allow,Deny
+Deny from all
+</FilesMatch>
+
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !(\.png|\.jpg|\.webp|\.gif|\.jpeg|\.zip|\.css|\.svg|\.js|\.pdf)$
+RewriteRule (.*) index.php [QSA,L]`
+);
+
+if (!existsSync("api/lib/rb.php")) {
+  fetch(
+    "https://raw.githubusercontent.com/mzaini30/redbean-sqlite/master/rb-sqlite.php"
+  )
+    .then((x) => x.text())
+    .then((x) => writeFileSync("api/lib/rb.php", x));
 }
 
 if (!existsSync("lib/")) {
@@ -232,7 +237,10 @@ routes.push({
       /(<html\-vue\s*>)([\s\S]+)(<\/html\-vue\s*>)/,
       "$1" + konten.join("") + "$3"
     )
-    .replace(/(<html\-vue\s*>)(<\/html\-vue\s*>)/, "$1" + konten.join("") + "$2");
+    .replace(
+      /(<html\-vue\s*>)(<\/html\-vue\s*>)/,
+      "$1" + konten.join("") + "$2"
+    );
   writeFileSync("index.html", index);
 }
 console.log("Aplikasi sudah siap");
