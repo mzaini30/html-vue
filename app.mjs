@@ -18,9 +18,7 @@ function membuatFile(namaFile, konten) {
 }
 async function membuatFileDownload(namaFile, link) {
   if (!existsSync(namaFile)) {
-    let library = await fetch(
-      link
-    );
+    let library = await fetch(link);
     library = await library.text();
     writeFileSync(namaFile, library);
   }
@@ -34,6 +32,8 @@ function membuatFolder(namaFolder) {
 membuatFolder("api");
 membuatFolder("api/lib");
 membuatFolder("api/pages");
+
+membuatFile(".htaccess", "Options -Indexes");
 
 membuatFile(".gitignore", "database.sqlite");
 membuatFile(
@@ -59,11 +59,16 @@ RewriteCond %{REQUEST_URI} !(\.png|\.jpg|\.webp|\.gif|\.jpeg|\.zip|\.css|\.svg|\
 RewriteRule (.*) index.php [QSA,L]`
 );
 
-membuatFileDownload('api/lib/rb.php', "https://raw.githubusercontent.com/mzaini30/redbean-sqlite/master/rb-sqlite.php");
+membuatFileDownload(
+  "api/lib/rb.php",
+  "https://raw.githubusercontent.com/mzaini30/redbean-sqlite/master/rb-sqlite.php"
+);
 
-
-membuatFolder('lib');
-membuatFileDownload('lib/minify.php', 'https://gist.githubusercontent.com/Rodrigo54/93169db48194d470188f/raw/774c625080b43b858a9c99aca7ff3ae48819fbc5/php-html-css-js-minifier.php');
+membuatFolder("lib");
+membuatFileDownload(
+  "lib/minify.php",
+  "https://gist.githubusercontent.com/Rodrigo54/93169db48194d470188f/raw/774c625080b43b858a9c99aca7ff3ae48819fbc5/php-html-css-js-minifier.php"
+);
 let library = [
   {
     name: "vue",
@@ -98,9 +103,9 @@ let libraryCss = [
 for (let lib of libraryCss) {
   membuatFileDownload(`lib/${lib.name}.css`, lib.link);
 }
-membuatFile('index.html', BuatIndex());
-membuatFolder('pages');
-membuatFile('pages/index.html', /*html*/ `<h1>Hello World</h1>`);
+membuatFile("index.html", BuatIndex());
+membuatFolder("pages");
+membuatFile("pages/index.html", /*html*/ `<h1>Hello World</h1>`);
 membuatFile("pages/database.html", BuatDatabase());
 
 function generateTag(path) {
