@@ -105,7 +105,10 @@ for (let lib of libraryCss) {
 }
 membuatFile("index.html", BuatIndex());
 membuatFolder("pages");
-membuatFile("pages/index.html", /*html*/ `<h1>Hello World</h1>`);
+if (!existsSync("pages/index.html") || !existsSync('pages/index.md')) {
+  writeFileSync("pages/index.html", `<h1>Hello World</h1>`);
+}
+// membuatFile("pages/index.html", /*html*/ `<h1>Hello World</h1>`);
 membuatFile("pages/database.html", BuatDatabase());
 
 function generateTag(path) {
